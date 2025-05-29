@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Awards</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div id="navbar">
+    <h1>TaskXcelerate</h1>
+    <a href="planner.html">Back to Tasks</a>
+    <a href="settings.html" id="settings">Settings</a>
+    <a href="index.html">
+      <button id="signout">Sign Out</button>
+    </a>
+  </div>
+
+  <div id="awards-content">
+    <h2>Your Achievements</h2>
+    <div id="awards-grid" class="awards-grid">
+      <p id="no-awards-message" style="display: none;">Complete tasks to earn awards!</p>
+    </div>
+  </div>
+
+  <!-- Award Modal -->
+<div id="award-modal" class="modal hidden">
+  <div class="award-modal-content">
+    <div class="award-coin" id="modal-coin">
+      <div class="coin-face front">
+        <img src="images/badge.png" alt="Front of Badge" />
+      </div>
+      <div class="coin-face back">
+        <img src="images/badgeback.png" alt="Back of Badge" />
+      </div>
+    </div>
+    <h3 id="award-name"></h3>
+    <p id="award-description"></p>
+    <p><strong>Created:</strong> <span id="award-created"></span></p>
+    <p><strong>Completed:</strong> <span id="award-completed"></span></p>
+    <button id="close-modal">Close</button>
+    <div class="share-section">
+  <p><strong>Share your achievement:</strong></p>
+  <!--Share Icons-->
+  <div class="share-icons">
+    <a href="#" id="share-whatsapp" target="_blank" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" id="share-instagram" aria-label="Share on Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="#" id="share-linkedin" target="_blank" aria-label="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="#" id="share-outlook" aria-label="Share via Outlook"><i class="fas fa-envelope"></i></a>
+  </div>
+</div>
+
+  </div>
+</div>
+
+
+  <script>
+  const savedDarkMode = JSON.parse(localStorage.getItem('darkMode'));
+  if (savedDarkMode) document.body.classList.add('dark-mode');
+
+  const taskLists = JSON.parse(localStorage.getItem('taskLists')) || {};
+  const customLists = JSON.parse(localStorage.getItem('customLists')) || {};
+  const allTasks = [...Object.values(taskLists).flat(), ...Object.values(customLists).flat()];
+  let earnedAwards = JSON.parse(localStorage.getItem('earnedAwards')) || [];
+
+  // Add new completed tasks to earnedAwards
+  allTasks.forEach(task => {
+    if (task.progress === 100 && !earnedAwards.some(award => award.id === task.id)) {
+      earnedAwards.push({
+        id: task.id,
+        name: task.name,
+        description: task.description || "",
+        created: task.created || "N/A",
+        completed: task.completed || new Date().toISOString().split("T")[0]
+      });
+    }
+  });
+
+  localStorage.setItem('earnedAwards', JSON.stringify(earnedAwards));
+
+  // Save back the updated list
+  localStorage.setItem('earnedAwards', JSON.stringify(earnedAwards));
+
+  const awardsGrid = document.getElementById("awards-grid");
+  const noAwardsMsg = document.getElementById("no-awards-message");
+  const modal = document.getElementById("award-modal");
+  const closeModal = document.getElementById("close-modal");
+  const modalCoin = document.getElementById("modal-coin");
+
+  if (earnedAwards.length === 0) {
+    noAwardsMsg.style.display = "block";
+  } else {
+    noAwardsMsg.style.display = "none";
+    earnedAwards.forEach(task => {
+      const award = document.createElement("div");
+      award.className = "award";
+      const badgeImg = document.createElement("img");
+      badgeImg.src = "images/badge.png";
+      badgeImg.alt = "Award Badge";
+      badgeImg.className = "award-badge";
+      award.appendChild(badgeImg);
+      award.title = task.name;
+
+      award.addEventListener("click", () => {
+        modalCoin.classList.remove("award-spin");
+        void modalCoin.offsetWidth;
+        modalCoin.classList.add("award-spin");
+
+        document.getElementById("award-name").textContent = task.name;
+        document.getElementById("award-description").textContent = task.description;
+        document.getElementById("award-created").textContent = task.created;
+        document.getElementById("award-completed").textContent = task.completed;
+
+        document.getElementById("share-whatsapp").href =
+          `https://wa.me/?text=🎉 I earned the '${task.name}' badge on TaskXcelerate! 🏅 ${task.description}`;
+        document.getElementById("share-linkedin").href =
+          `https://www.linkedin.com/sharing/share-offsite/?url=https://taskxcelerate.app&summary=I earned the '${task.name}' badge!`;
+        document.getElementById("share-outlook").href =
+          `mailto:?subject=I earned a badge on TaskXcelerate!&body=I completed '${task.name}' - ${task.description}`;
+        document.getElementById("share-instagram").onclick = () => {
+          alert("Instagram sharing is manual. Screenshot and share your badge via the app.");
+        };
+
+        modal.classList.remove("hidden");
+      });
+
+      awardsGrid.appendChild(award);
+    });
+  }
+
+  closeModal.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.add("hidden");
+  });
+ 
+  function deleteTask(taskId, listType = 'taskLists') {
+    const taskLists = JSON.parse(localStorage.getItem('taskLists')) || {};
+    const customLists = JSON.parse(localStorage.getItem('customLists')) || {};
+    const earnedAwards = JSON.parse(localStorage.getItem('earnedAwards')) || {};
+
+    // Delete from the correct list
+    if (listType === 'taskLists') {
+      for (let key in taskLists) {
+        taskLists[key] = taskLists[key].filter(task => task.id !== taskId);
+      }
+      localStorage.setItem('taskLists', JSON.stringify(taskLists));
+    } else if (listType === 'customLists') {
+      for (let key in customLists) {
+        customLists[key] = customLists[key].filter(task => task.id !== taskId);
+      }
+      localStorage.setItem('customLists', JSON.stringify(customLists));
+    }
+
+    // Delete corresponding award
+    const updatedAwards = earnedAwards.filter(award => award.id !== taskId);
+    localStorage.setItem('earnedAwards', JSON.stringify(updatedAwards));
+
+    // Optional: refresh page or UI
+    location.reload(); // or call a UI refresh function instead
+  }
+
+</script>
+
+</body>
+</html>
+

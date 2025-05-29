@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskXcelerate</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- Logout Modal -->
+<div id="logout-warning-modal" class="modal hidden">
+  <div class="modal-content">
+    <p>⚠ You have tasks due today or earlier that are not completed.</p>
+    <p>Are you sure you want to sign out?</p>
+    <button class="cancel-btn" onclick="closeLogoutModal()">Cancel</button>
+    <button class="confirm-btn" onclick="proceedLogout()">Log Out Anyway</button>
+  </div>
+</div>
+
+<div id="navbar">
+  <h1>TaskXcelerate</h1>
+  <div>
+    <a href="awards.html">awards</a>
+    <a href="settings.html">settings</a>
+    <a href="index.html" id="signout"><button>sign out</button></a>
+  </div>
+</div>
+
+<div id="main">
+  <div id="sidebar">
+    <div class="user-profile">
+      <i class="fas fa-user-circle"></i>
+      <span id="sidebar-username" class="username-display">Username</span>
+      <input type="text" id="search" placeholder="Search tasks...">
+    </div>
+    <ul id="list-nav"></ul>
+    <button id="newList">+ New List</button>
+    <input type="text" id="newListInput" placeholder="Enter list name" style="display:none;" autocomplete="off">
+  </div>
+
+  <div id="content">
+    <h2 id="list-title">My Day</h2>
+    <p id="current-date"></p>
+    <ul id="task-list"></ul>
+    <input type="text" id="new-task-input" placeholder="+ Add a Task" />
+  </div>
+</div>
+
+  <!-- Blur overlay -->
+  <div id="planner-blur" style="display: none;"></div>
+
+  <!-- Toast notification -->
+  <div id="congrats-toast">
+    🎉 Task Completed! You've earned an award!
+  </div>
+
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (!currentUser || !currentUser.username) window.location.href = "index.html";
+else document.getElementById("sidebar-username").textContent = currentUser.username;
+
+document.getElementById("signout").addEventListener("click", function (e) {
+  e.preventDefault();
+  const taskLists = JSON.parse(localStorage.getItem("taskLists")) || {};
+  const today = new Date().toISOString().split("T")[0];
+
+  const allTasks = [...Object.values(taskLists).flat()];
+  const hasOverdue = allTasks.some(task => task.dueDate && task.progress < 100 && task.dueDate <= today);
+
+  if (hasOverdue) document.getElementById("logout-warning-modal").classList.remove("hidden");
+  else window.location.href = "index.html";
+});
+
+function closeLogoutModal() {
+  document.getElementById("logout-warning-modal").classList.add("hidden");
+}
+
+function proceedLogout() {
+  window.location.href = "index.html";
+}
+
+// Ensure all matching tasks are synced by ID
+function updateAllInstances(taskId, newValues) {
+  const taskLists = JSON.parse(localStorage.getItem("taskLists")) || {};
+  for (const listName in taskLists) {
+    taskLists[listName] = taskLists[listName].map(task => task.id === taskId ? { ...task, ...newValues } : task);
+  }
+  localStorage.setItem("taskLists", JSON.stringify(taskLists));
+}
+function deleteTaskEverywhere(taskId) {
+  const taskLists = JSON.parse(localStorage.getItem("taskLists")) || {};
+
+  for (const listName in taskLists) {
+    // Filter out the task with the matching ID
+    taskLists[listName] = taskLists[listName].filter(task => task.id !== taskId);
+  }
+
+  localStorage.setItem("taskLists", JSON.stringify(taskLists));
+  renderTasks(); // You may call your render function here
+}
+</script>
+<script src="js/script.js"></script>
+</body>
+</html>

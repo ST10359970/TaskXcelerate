@@ -1,0 +1,680 @@
+/* === Global Styles === */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle, #0085ff, #003465);
+  color: white;
+  height: 100vh;
+  overflow: auto;
+}
+/* Scrollable container for settings */
+#content.scrollable {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* === Navbar === */
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a3c77;
+  padding: 10px 20px;
+}
+
+#navbar h1 {
+  font-size: 24px;
+}
+
+#navbar a,
+#navbar button {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#navbar a:hover,
+#navbar button:hover {
+  color: #ffcc00;
+}
+
+/* === Main Layout === */
+#main {
+  display: flex;
+  height: calc(100vh - 50px);
+}
+
+/* === Sidebar === */
+#sidebar {
+  width: 250px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  overflow-y: auto;
+}
+
+#sidebar input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 14px;
+}
+
+.username-display {
+  font-weight: bold;
+  margin: 10px 0;
+  color: #ffffff;
+}
+.user.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: centre;
+  height: 150px;
+  padding: 10px;
+}
+body.dark-mode .username-display {
+  color: #ffcc00; 
+}
+
+/* === List Navigation === */
+#list-nav li {
+  list-style: none;
+  padding: 10px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 5px 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s ease;
+}
+
+#lisnav li span {
+  flex-grow: 1;
+  text-align: left;
+}
+
+#list-nav li.active {
+  background-color: #2a72b8;
+}
+
+#list-nav li:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+#list-nav li i {
+  margin-right: 10px;
+}
+
+/* === Content Area === */
+#content {
+  flex: 1;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+/* === Task Input === */
+#new-task-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+/* === Task List === */
+#task-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.task-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #000;
+  transition: background 0.3s ease;
+  border-left: 5px solid #333;
+}
+
+.task-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.task-priority-high {
+  border-left-color: red !important;
+}
+
+.task-priority-normal {
+  border-left-color: yellow !important;
+}
+
+.task-priority-low {
+  border-left-color: green !important;
+}
+
+/* === Progress Bars === */
+.progress-bar {
+  width: 100%;
+  background-color: #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+  height: 10px;
+}
+
+.progress {
+  height: 10px;
+  background-color: #76c7c0;
+  width: 0;
+}
+
+/* === Delete Buttons === */
+.delete-task,
+.delete-list {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #db1010;
+  font-size: 14px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: color 0.3s ease;
+}
+
+.delete-task:hover,
+.delete-list:hover {
+  color: darkred;
+}
+
+.delete-task i,
+.delete-list i {
+  pointer-events: none;
+}
+
+/* === New List Input === */
+#newListInput {
+  margin-top: 10px;
+  width: 90%;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  display: none;
+  font-size: 14px;
+}
+
+/* === Task Details Form === */
+#task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#task-details select,
+#task-details input,
+#task-details textarea {
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* === Login Page === */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle, #0085ff, #003465);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-image {
+  max-width: 80%;
+  height: auto;
+}
+
+.login-right {
+  flex: 1;
+  max-width: 400px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  color: #000;
+}
+
+.login-right h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login-right label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.login-right input {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.login-right button {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(to right, #004e92, #000428);
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-right button:hover {
+  background: linear-gradient(to right, #000428, #004e92);
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-options a {
+  color: #000;
+  text-decoration: none;
+}
+
+.login-options a:hover {
+  text-decoration: underline;
+}
+
+/* === Awards Page === */
+#awards-content {
+  padding: 30px;
+  text-align: center;
+  color: white;
+}
+
+#awards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+#awards-grid.awards-empty {
+  justify-content: center;
+}
+
+.award-badge {
+  width: 100px;
+  height: 100px;
+  background: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transition: transform 0.5s ease;
+}
+
+.award-badge:hover {
+  transform: scale(1.1);
+}
+
+/* === Award Modal + Coin Flip === */
+.award-modal-content {
+  max-width: 400px;
+  margin: auto;
+  background: #fff;
+  padding: 1em;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  color: #000;
+  font-family: Arial, sans-serif;
+}
+
+.award-coin {
+  width: 150px;
+  height: 150px;
+  margin: 1em auto;
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.coin-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.coin-face.back {
+  transform: rotateY(180deg);
+}
+
+.award-spin {
+  animation: coinFlip 1s ease-in-out;
+}
+
+@keyframes coinFlip {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(720deg);
+  }
+}
+
+/* === Modal General === */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  color: black !important;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+/* === Task Progress / Subtasks === */
+.task-progress-container {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.task-progress-bar-fill {
+  height: 100%;
+  background-color: #4caf50;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.task-progress-input {
+  width: 50px;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.subtasks-container {
+  margin-top: 10px;
+}
+
+.subtask {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-label {
+  margin-top: 5px;
+  font-weight: bold;
+}
+/* === Settings Page === */
+.settings-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.settings-section h2 {
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.settings-section label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.settings-section input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-left: 10px;
+}
+
+.settings-section button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #1a3c77;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.settings-section button:hover {
+  background-color: #2a72b8;
+}
+
+.settings-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.settings-section ul li {
+  margin: 5px 0;
+  color: #fff;
+}
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 10000;
+}
+
+.tutorial-box {
+  position: fixed;
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 300px;
+  z-index: 10001;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.tutorial-box p {
+  margin-bottom: 10px;
+}
+
+.tutorial-box button {
+  margin-right: 10px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #1a3c77;
+  color: white;
+}
+
+.tutorial-box button:hover {
+  background-color: #2a72b8;
+}
+.share-section {
+  margin-top: 15px;
+}
+
+.share-icons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.share-icons a {
+  font-size: 24px;
+  color: #1a3c77;
+  text-decoration: none;
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.share-icons a:hover {
+  transform: scale(1.2);
+  color: #ffcc00;
+}
+
+/* === Dark Mode Styles === */
+body.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode #navbar {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .settings-section {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .settings-section button,
+body.dark-mode .settings-section input,
+body.dark-mode .settings-section label
+body.dark-mode .settings-section ul li {
+  color: #fff;
+}
+
+body.dark-mode a,
+body.dark-mode a:visited {
+  color: #9ecfff;
+}
+
+/* 🎉 Bottom-right congrats popup styling */
+#congrats-toast {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  background-color: #1a3c77;
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  z-index: 10000;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#congrats-toast.show {
+  animation: fadeInOut 4s ease-in-out forwards;
+  pointer-events: auto;
+}
+
+#planner-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: none;
+}
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateY(20px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  90%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}

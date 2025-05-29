@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <div id="navbar">
+    <h1>TaskXcelerate</h1>
+    <a href="planner.html">← Back to Planner</a>
+  </div>
+
+    <div id="content" class="scrollable">
+      <section class="settings-section">
+        <h2>Account Settings</h2>
+        <p>👤 Name: <span id="display-name">username</span></p>
+        <p>✉️ Email: <span id="display-email">username@example.com</span></p>
+        <button id="change-password-btn">🔐 Change Password</button>
+      </section>
+
+      <section class="settings-section">
+        <h2>Theme & Appearance</h2>
+        <label>
+          🌗 Toggle Dark Mode
+          <input type="checkbox" id="dark-mode-toggle" />
+        </label>
+      </section>
+
+      <section class="settings-section">
+        <h2>Notifications</h2>
+        <label>
+          🔔 Daily Reminder
+          <input type="checkbox" id="daily-reminder-toggle" />
+        </label>
+      </section>
+
+      <section class="settings-section">
+        <h2>Privacy</h2>
+        <label>
+          🔐 Enable 2FA
+          <input type="checkbox" id="2fa-toggle" />
+        </label>
+        <p> Delete Account <button id="delete-account-btn">⚠️ Delete </button></p>
+      </section>
+
+      <section class="settings-section">
+        <h2>Tutorial Instructions</h2>
+        <ul>
+          <li>📋 How to create a task</li>
+          <li>🖋️ How to create a list</li>
+          <li>🗓️ How to plan a task</li>
+          <li>📋 How to complete/delete a task</li>
+          <li>🛠️ How to customise your view</li>
+        </ul>
+        <button id="start-tutorial-btn">↪️ Start Full Tutorial</button>
+      
+        <div id="tutorial-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; color:white; font-size:1.2rem; padding:20px;">
+          <div id="tutorial-step-text" style="max-width:600px; margin:auto; background:#222; padding:20px; border-radius:10px;">
+          <!-- Tutorial text goes here -->
+          </div>
+          <div style="text-align:center; margin-top:15px;">
+            <button id="tutorial-prev-btn">⬅ Previous</button>
+            <button id="tutorial-next-btn">Next ➡</button>
+            <button id="tutorial-exit-btn" style="margin-left:20px; color:red;">Exit Tutorial ❌</button>
+          </div>
+        </div>
+      </section>
+    </div>
+<!-- Password Change Modal -->
+<div id="password-modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Change Password</h3>
+    <label>Current Password:</label>
+    <input type="password" id="current-password" /><br/>
+    <label>New Password:</label>
+    <input type="password" id="new-password" /><br/>
+    <label>Confirm New Password:</label>
+    <input type="password" id="confirm-password" /><br/><br/>
+    <button id="save-password-btn">Save</button>
+    <button id="cancel-password-btn">Cancel</button>
+  </div>
+</div>
+
+<style>
+  .modal {
+    position: fixed;
+    z-index: 10;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px gray;
+  }
+
+  .modal-content input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+</style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const darkToggle = document.getElementById("dark-mode-toggle");
+
+  if (darkToggle) {
+    const isDark = JSON.parse(localStorage.getItem("darkMode")) || false;
+    darkToggle.checked = isDark;
+    document.body.classList.toggle("dark-mode", isDark);
+
+    darkToggle.addEventListener("change", function () {
+      const enabled = darkToggle.checked;
+      localStorage.setItem("darkMode", enabled);
+      document.body.classList.toggle("dark-mode", enabled);
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const deleteBtn = document.getElementById("delete-account-btn");
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", function () {
+      const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+      if (confirmDelete) {
+        // Simulated account deletion: Clear local storage and redirect to a goodbye page or login screen
+        localStorage.clear(); // or selectively remove user data
+        alert("Your account has been deleted.");
+        window.location.href = "index.html"; // Redirect to home/login page
+      }
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const changePwdBtn = document.getElementById("change-password-btn");
+  const modal = document.getElementById("password-modal");
+  const saveBtn = document.getElementById("save-password-btn");
+  const cancelBtn = document.getElementById("cancel-password-btn");
+
+  changePwdBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  saveBtn.addEventListener("click", () => {
+    const currentPwd = document.getElementById("current-password").value;
+    const newPwd = document.getElementById("new-password").value;
+    const confirmPwd = document.getElementById("confirm-password").value;
+
+    // Simulate stored password
+    const storedPwd = localStorage.getItem("userPassword") || "password123"; // default for test
+
+    if (currentPwd !== storedPwd) {
+      alert("Current password is incorrect.");
+      return;
+    }
+
+    if (newPwd.length < 6) {
+      alert("New password must be at least 6 characters.");
+      return;
+    }
+
+    if (newPwd !== confirmPwd) {
+      alert("New passwords do not match.");
+      return;
+    }
+
+    // Save new password
+    localStorage.setItem("userPassword", newPwd);
+    alert("Password changed successfully.");
+    modal.style.display = "none";
+
+    // Clear modal inputs
+    document.getElementById("current-password").value = "";
+    document.getElementById("new-password").value = "";
+    document.getElementById("confirm-password").value = "";
+  });
+});
+
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>

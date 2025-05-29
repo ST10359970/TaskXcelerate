@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskXcelerate | Productivity Reimagined</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    :root {
+      --accent: #00c896;
+      --accent-dark: #009e77;
+      --text-light: #ffffff;
+      --shadow-dark: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    .section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 3rem 2rem;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: 1;
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.3);
+    }
+
+    .parallax-1 { background-image: url('images/productivity-bg1.jpg'); }
+    .parallax-2 { background-image: url('awards-bg2.jpg'); }
+    .parallax-3 { background-image: url('tasks-bg3.jpg'); }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 10px var(--shadow-dark);
+    }
+
+    p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 8px var(--shadow-dark);
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px var(--shadow-dark);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--accent-dark);
+      transform: scale(1.05);
+    }
+
+    /* Centered Badge Spinner */
+    .badge-container {
+      margin-top: 3rem;
+      width: 200px;
+      height: 200px;
+      perspective: 1200px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .badge-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s ease-in-out;
+    }
+
+    .badge-container:hover .badge-inner {
+      transform: rotateY(360deg);
+    }
+
+    .badge-front, .badge-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 4px 12px var(--shadow-dark);
+    }
+
+    .badge-front {
+      background-image: url('images/badge.png');
+    }
+
+    .badge-back {
+      background-image: url('images/badgeback.png');
+      transform: rotateY(180deg);
+    }
+
+    /* Floating parallax elements */
+    .float-img {
+      position: absolute;
+      width: 100px;
+      opacity: 0.7;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .float-1 {
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+
+    .float-2 {
+      bottom: 15%;
+      right: 10%;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      p { font-size: 1.1rem; }
+      .badge-container { width: 140px; height: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Elements -->
+  <img src="images/float-tasklist.png" alt="task list" class="float-img float-1">
+  <img src="images/float-pencil.png" alt="pencil" class="float-img float-2">
+
+  <!-- Section 1 -->
+  <div class="section parallax-1">
+    <h1>Welcome to TaskXcelerate</h1>
+    <p>Your productivity companion. Track tasks, earn badges, and stay motivated!</p>
+    <a href="signup.html"><button class="btn">Get Started</button></a>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section parallax-2">
+    <h1>Earn Awards</h1>
+    <p>Complete tasks and unlock achievements. Your efforts deserve recognition.</p>
+
+    <!-- Badge Coin Spinner Centered -->
+    <div class="badge-container">
+      <div class="badge-inner">
+        <div class="badge-front"></div>
+        <div class="badge-back"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section parallax-3">
+    <h1>Plan & Conquer</h1>
+    <p>Stay organized with custom task lists, reminders, and visual progress tracking.</p>
+    <a href="login.html"><button class="btn">Login to Start</button></a>
+  </div>
+
+</body>
+</html>
